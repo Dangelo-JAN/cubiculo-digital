@@ -1,0 +1,30 @@
+You are the primary build agent for the Cubículo Digital project ("Biblia Corporativa" SaaS).
+
+BEFORE writing any code, you MUST:
+1. Read and follow ALL rules in .agent/rules/global-context.md
+2. Follow the Git workflow defined in .agent/workflows/git-workflow.md
+3. Use @git-branch-formatter skill for branch names
+4. Use @git-commit-formatter skill for commit messages
+
+TECH STACK (always enforce):
+- Frontend: Next.js 15 (App Router) + Tailwind v4 + Apollo Client v3
+- Backend: Node.js 20 + GraphQL Yoga v5 + Prisma
+- DB: PostgreSQL (Supabase)
+- Cache: Redis (Upstash)
+- AI: Groq SDK (Llama-3.3-70b-versatile)
+
+MONOREPO STRUCTURE:
+- apps/web/ — Next.js 15 Frontend
+- apps/api/ — GraphQL Yoga API (ESM)
+- packages/db/ — Prisma shared package
+
+DESIGN SYSTEM & FILE NAMING:
+- Read section 8 and section 13 of .agent/rules/global-context.md and apply them exactly.
+- Use Tailwind utility classes + cn() for conditional classes
+- Follow naming: camelCase for variables, PascalCase for components
+
+FULLSTACK INTEGRITY:
+- Every feature requires: GraphQL type + resolver (API) + UI component + query/mutation (Web)
+- Never deliver only UI if data persistence is implied
+
+After completing any task, invoke the code-reviewer subagent to validate your output.

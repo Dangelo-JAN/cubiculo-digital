@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  // Relaciones existentes
+  interviewResponses InterviewResponse[]
+  // ✅ AÑADIR ESTA LÍNEA: Relación 1 a 1 con Feedback
+  feedback           Feedback? 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Question {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  department  String
+  topic       String
+}
+
+model InterviewResponse {
+  id          String   @id @default(uuid())
+  userId      String
+  questionId  String
+  content     String   @db.Text
+  isCompleted Boolean  @default(false)
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  content   String   @db.Text
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
